@@ -1,36 +1,48 @@
-import 'package:course_4/models/meal.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
+
 import 'package:course_4/widgets/meal_item_trait.dart';
+import 'package:course_4/models/meal.dart';
 
 class MealItem extends StatelessWidget {
-  const MealItem({super.key, required this.meal, required this.onSelectMeal});
-  final void Function (Meal meal) onSelectMeal;
-  final Meal meal;
+  const MealItem({
+    super.key,
+    required this.meal,
+    required this.onSelectMeal,
+  });
 
-  String get complexityText{
-    return meal.complexity.name[0].toUpperCase()+meal.complexity.name.substring(1);
+  final Meal meal;
+  final void Function(Meal meal) onSelectMeal;
+
+  String get complexityText {
+    return meal.complexity.name[0].toUpperCase() +
+        meal.complexity.name.substring(1);
   }
-  String get affordabilityText{
-    return meal.affordability.name[0].toUpperCase()+meal.affordability.name.substring(1);
+
+  String get affordabilityText {
+    return meal.affordability.name[0].toUpperCase() +
+        meal.affordability.name.substring(1);
   }
+
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(8),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      clipBehavior:
-          Clip.hardEdge, // we do this because stack ignore shape property
+      margin: const EdgeInsets.all(8),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      clipBehavior: Clip.hardEdge,
       elevation: 2,
       child: InkWell(
-        onTap: (){onSelectMeal(meal);},
+        onTap: () {
+          onSelectMeal(meal);
+        },
         child: Stack(
           children: [
             FadeInImage(
               placeholder: MemoryImage(kTransparentImage),
               image: NetworkImage(meal.imageUrl),
-              fit: BoxFit
-                  .cover, // if the image doesn't fit into the box its cutoff and not distorted
+              fit: BoxFit.cover,
               height: 200,
               width: double.infinity,
             ),
@@ -49,11 +61,12 @@ class MealItem extends StatelessWidget {
                       maxLines: 2,
                       textAlign: TextAlign.center,
                       softWrap: true,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                      overflow: TextOverflow.ellipsis, // Very long text ...
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     Row(
@@ -61,20 +74,20 @@ class MealItem extends StatelessWidget {
                       children: [
                         MealItemTrait(
                           icon: Icons.schedule,
-                          lable: '${meal.duration} min',
+                          label: '${meal.duration} min',
                         ),
                         const SizedBox(width: 12),
                         MealItemTrait(
                           icon: Icons.work,
-                          lable: complexityText,
+                          label: complexityText,
                         ),
                         const SizedBox(width: 12),
                         MealItemTrait(
                           icon: Icons.attach_money,
-                          lable: affordabilityText,
-                        ),
+                          label: affordabilityText,
+                        )
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),
